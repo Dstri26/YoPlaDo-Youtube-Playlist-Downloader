@@ -45,7 +45,7 @@ for link in playlist:
         count += 1
         continue
 
-    #video.download("Downloads")
+    video.download("Downloads")
     print(yt.title+" - has been downloaded !!!")
     count += 1
 
