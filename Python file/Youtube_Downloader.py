@@ -31,18 +31,7 @@ del playlist[0:2]
 count = 1
 
 playlist = sorted(set(playlist), key = playlist.index)
-"""
-for i in playlist:
-    try:
-        yt = YouTube(i)
-    except:
-        print("Unable to view file. Skipping video {number}".format(number = count))
-        count += 1
-        continue
-    print(yt.title)
-    count += 1
 
-"""
 vquality=input("Enter the video quality (1080,720,480,360,240,144):")
 vquality=vquality+"p"
 
