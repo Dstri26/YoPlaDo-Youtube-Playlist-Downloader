@@ -12,7 +12,11 @@ import requests
 
 playlist=[]
 url=input("Enter the Youtube Playlist URL : ") #Takes the Playlist Link
-data= requests.get(url)
+try:
+    data = requests.get(url)
+except:
+    print("An exception occured while downloading the playlist. Error: Unable to fetch data from the error or the link is not valid.")
+    exit()
 soup=bs4.BeautifulSoup(data.text,'html.parser')
 
 
@@ -24,14 +28,24 @@ for links in soup.find_all('a'):
             playlist.append(link)
 del playlist[0:2]
 
-playlist=set(playlist)
+count = 1
+
+playlist = sorted(set(playlist), key = playlist.index)
 
 vquality=input("Enter the video quality (1080,720,480,360,240,144):")
 vquality=vquality+"p"
 
 for link in playlist:
-    yt = YouTube(link)
-    videos= yt.streams.filter(mime_type="video/mp4",res=vquality).all()
-    video=videos[0]
-    video.download("Downloads")
+    try:
+        yt = YouTube(link)
+        videos= yt.streams.filter(mime_type="video/mp4",res=vquality)
+        video = videos[0]
+    except:
+        print("Exception occured. Either the video has no quality as set by you, or it is not available. Skipping video {number}".format(number = count))
+        count += 1
+        continue
+
+    #video.download("Downloads")
     print(yt.title+" - has been downloaded !!!")
+    count += 1
+
