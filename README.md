@@ -12,3 +12,6 @@ Prerequisites Libraries:
 Project is a simple combination of WebScrapping and Youtube-Downloading
 
 Executable File in dist folder of YoPlaDo2
+
+Instead of using  crack downloaders use this.
+
