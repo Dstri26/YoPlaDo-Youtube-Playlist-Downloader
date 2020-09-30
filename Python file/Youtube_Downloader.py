@@ -4,6 +4,9 @@ Created on Sun Mar  8 20:12:07 2020
 
 @author: DS
 """
+"""
+Example of WebScrapping using python
+"""
 from pytube import YouTube
 import bs4
 import requests
