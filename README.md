@@ -1,5 +1,5 @@
 # YoPlaDo-Youtube-Playlist-Downloader
-A simple python program to download Youtube Playlist at once.
+It is a simple python program to download Youtube Playlist at once.
 
 
 Prerequisites Libraries:
@@ -15,3 +15,4 @@ Executable File in dist folder of YoPlaDo2
 
 Instead of using  crack downloaders use this.
 
+It is simple yet an effective one
