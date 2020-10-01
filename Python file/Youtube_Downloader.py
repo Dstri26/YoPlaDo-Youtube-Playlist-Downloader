@@ -38,6 +38,10 @@ playlist = sorted(set(playlist), key = playlist.index)
 vquality=input("Enter the video quality (1080,720,480,360,240,144):")
 vquality=vquality+"p"
 
+"""
+Downloading Each video in the playlist
+"""
+
 for link in playlist:
     try:
         yt = YouTube(link)
