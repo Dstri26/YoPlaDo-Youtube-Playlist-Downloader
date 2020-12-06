@@ -7,52 +7,40 @@ Created on Sun Mar  8 20:12:07 2020
 """
 Example of WebScrapping using python
 """
-from pytube import YouTube
-import bs4
-import requests
+from selenium import webdriver
+import time 
+import youtube_dl 
+import os
 
+ydl_opts = {} 
 
-
+def vidstrip(playlist):
+    for i in range(len(playlist)):
+        end=playlist[i].find("&")
+        playlist[i]=playlist[i][:end]
+    return playlist
+    
+url = input("Enter youtube playlist link : ")
+driver = webdriver.Chrome() 
+driver.get(url)
+time.sleep(5)
 playlist=[]
-url=input("Enter the Youtube Playlist URL : ") #Takes the Playlist Link
-try:
-    data = requests.get(url)
-except:
-    print("An exception occured while downloading the playlist. Error: Unable to fetch data from the error or the link is not valid.")
-    exit()
-soup=bs4.BeautifulSoup(data.text,'html.parser')
+videos=driver.find_elements_by_class_name('style-scope ytd-playlist-video-renderer')
+for video in videos:
+    link=video.find_element_by_xpath('.//*[@id="content"]/a').get_attribute("href")
+    playlist.append(link)
+    
+vidlist=vidstrip(playlist)
+count=1
+os.chdir('C:/Users/Trideep/Downloads') 
 
-
-for links in soup.find_all('a'):
-        link=links.get('href')
-        if (link[0:6]=="/watch" and link[0]!="#"):
-            link="https://www.youtube.com"+link
-            link=str(link)
-            playlist.append(link)
-del playlist[0:2]
-
-count = 1
-
-playlist = sorted(set(playlist), key = playlist.index)
-
-vquality=input("Enter the video quality (1080,720,480,360,240,144):")
-vquality=vquality+"p"
-
-"""
-Downloading Each video in the playlist
-"""
-
-for link in playlist:
+for link in vidlist:
     try:
-        yt = YouTube(link)
-        videos= yt.streams.filter(mime_type="video/mp4",res=vquality)
-        video = videos[0]
+        with youtube_dl.YoutubeDL(ydl_opts) as ydl:
+            ydl.download([link])
     except:
         print("Exception occured. Either the video has no quality as set by you, or it is not available. Skipping video {number}".format(number = count))
-        count += 1
         continue
-
-    video.download("Downloads")
-    print(yt.title+" - has been downloaded !!!")
     count += 1
 
+driver.close()
