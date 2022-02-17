@@ -20,7 +20,7 @@ url = input("Enter youtube playlist link : ")
 chrome_options = Options()  
 chrome_options.add_argument("--headless")  
 
-driver = webdriver.Chrome(options=chrome_options)
+driver = webdriver.Chrome(executable_path='chromedriver.exe',options=chrome_options)
 driver.get(url)
 time.sleep(5)
 playlist=[]
