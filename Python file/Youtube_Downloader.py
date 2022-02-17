@@ -15,26 +15,34 @@ import os
 from selenium.webdriver.chrome.options import Options  
 
 ydl_opts = {} 
-    
+playlist=[]    
 url = input("Enter youtube playlist link : ")
-chrome_options = Options()  
-chrome_options.add_argument("--headless")  
 
-driver = webdriver.Chrome(executable_path='chromedriver.exe',options=chrome_options)
-driver.get(url)
-time.sleep(5)
-playlist=[]
-videos=driver.find_elements_by_id('video-title')
-for video in videos:
-    link=video.get_attribute("href")
-    end=link.find("&")
-    link=link[:end]
-    playlist.append(link)
+if url.find('playlist?list=')!=-1:
+    chrome_options = Options()  
+    chrome_options.add_argument("--headless")  
+
+    driver = webdriver.Chrome(executable_path='chromedriver.exe',options=chrome_options)
+    driver.get(url)
+    time.sleep(5)
+
+    videos=driver.find_elements_by_id('video-title')
+    for video in videos:
+        link=video.get_attribute("href")
+        end=link.find("&")
+        link=link[:end]
+        playlist.append(link)
+    driver.close()
+
+elif url.find('watch?v=')!=-1:
+    playlist.append(url)
+
 os.chdir('C:/Users/Trideep/Downloads') 
 
 for link in playlist:
-    print(link)
     vid=yt(link)
+    print("--------------------------------")
+    print(vid.title+" is being downloaded !!")
     vid.streams.get_highest_resolution().download()
     print(vid.title+" has been successfully downloaded !!")
-driver.close()
+    print("--------------------------------")
